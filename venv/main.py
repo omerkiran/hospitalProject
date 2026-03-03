@@ -1,35 +1,45 @@
 import pandas as pd
 
-
+# Excel dosyasını oku
 df = pd.read_excel("general_hospital_data.xlsx")
-# excel dosyası okumak için 
-#
+
+# ------------------------
+# 1. VERİ TEMİZLEME
+# ------------------------
 
 # İsimleri düzelt (baş harf büyük)
 df["Patient Name"] = df["Patient Name"].str.strip().str.title()
 
-
+# Gender temizlemek için
 df["Gender"] = df["Gender"].str.strip().str.title()
-# cinsiyet verileri için
+
+# Region temizlemek için
 df["Region"] = df["Region"].str.strip().str.title()
-#yaşadıkları bölgeler
+
+# Medical Condition temizleme
 df["Medical Condition"] = df["Medical Condition"].str.strip().str.title()
 
-# Tarih formatı
+# Tarih formatına çevir
 df["Date of Admission"] = pd.to_datetime(df["Date of Admission"])
 df["Date of Discharge"] = pd.to_datetime(df["Date of Discharge"])
 
-
-
-df["Length_of_Stay"] = (df["Date of Discharge"] - df["Date of Admission"]).dt.days
-#hastanede kaldığı süreyi bulmak içiin çıkış tarihinden çıkış tarihini çıkarttık yeni bir veri oluşturup oraya atadık
+# ------------------------
+# 2. HASTANEDE KALIŞ SÜRESİ 
 # ------------------------
 
+df["Length_of_Stay"] = (df["Date of Discharge"] - df["Date of Admission"]).dt.days
+
+# ------------------------
+# 3. ÖLÜM DURUMU (Binary)
+# ------------------------
 
 df["Survival_Status"] = df["Outcome"].apply(
     lambda x: 1 if x == "Success" else 0
 )
-#veri üzezerinde daha iyi çaışma yapmak için binary yaptım
+
+# ------------------------
+# 4. YAŞ GRUBU EKLE
+# ------------------------
 
 def age_group(age):
     if age <= 18:
@@ -43,7 +53,9 @@ def age_group(age):
 
 df["Age_Group"] = df["Age"].apply(age_group)
 
-
+# ------------------------
+# 5. MEVSİM BİLGİSİ EKLE
+# ------------------------
 
 def get_season(date):
     month = date.month
@@ -59,8 +71,10 @@ def get_season(date):
 
 df["Season"] = df["Date of Admission"].apply(get_season)
 
-# yeni excel dosyası 
+# ------------------------
+# 6. YENİ EXCEL DOSYASI KAYDET
+# ------------------------
 
 df.to_excel("YeniHastaneVerisi.xlsx", index=False)
 
-print("İşlem tamamlandı, temizlenmiş veri oluştu")
+print("İşlem tamamlandı. YeniHastaneVerisi.xlsx oluşturuldu.")
