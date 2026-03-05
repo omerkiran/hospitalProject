@@ -70,6 +70,22 @@ df["Season"] = df["Date of Admission"].apply(get_season)
 
 
 
+#hastaların risk oranları
+def risk_level(row):
+    age = row["Age"]
+    stay = row["Length_of_Stay"]
+
+    if age > 65 and stay > 30:
+        return "High"
+    elif stay > 15:
+        return "Medium"
+    else:
+        return "Low"
+
+df["Risk_Level"] = df.apply(risk_level, axis=1)
+
+
+
 
 df.to_excel("YeniHastaneVerisi.xlsx", index=False)
 
