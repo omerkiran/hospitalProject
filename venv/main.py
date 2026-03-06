@@ -72,18 +72,86 @@ df["Season"] = df["Date of Admission"].apply(get_season)
 
 #hastaların risk oranları
 def risk_level(row):
+
     age = row["Age"]
     stay = row["Length_of_Stay"]
+    disease = row["Medical Condition"]
 
-    if age > 65 and stay > 30:
-        return "High"
-    elif stay > 15:
-        return "Medium"
+    # CANCER
+    if disease == "Cancer":
+        if age > 70 or stay > 200:
+            return "Very High Risk"
+        elif age > 50 or stay > 100:
+            return "High Risk"
+        else:
+            return "Medium Risk"
+
+
+    # INFECTION
+    elif disease == "Infection":
+        if stay > 400:
+            return "Very High Risk"
+        elif age > 60 or stay > 200:
+            return "High Risk"
+        elif stay > 60:
+            return "Medium Risk"
+        else:
+            return "Low Risk"
+
+
+    # INJURY
+    elif disease == "Injury":
+        if age > 80:
+            return "Very High Risk"
+        elif age > 60 or stay > 300:
+            return "High Risk"
+        elif stay > 100:
+            return "Medium Risk"
+        else:
+            return "Low Risk"
+
+
+    # HYPERTENSION
+    elif disease == "Hypertension":
+        if age > 75 and stay > 200:
+            return "Very High Risk"
+        elif age > 60 or stay > 120:
+            return "High Risk"
+        elif stay > 50:
+            return "Medium Risk"
+        else:
+            return "Low Risk"
+
+
+    # DIABETES
+    elif disease == "Diabetes":
+        if age > 70 and stay > 300:
+            return "Very High Risk"
+        elif age > 55 or stay > 150:
+            return "High Risk"
+        elif stay > 60:
+            return "Medium Risk"
+        else:
+            return "Low Risk"
+
+
+    # FLU
+    elif disease == "Flu":
+        if age > 75 and stay > 150:
+            return "High Risk"
+        elif age > 60 or stay > 80:
+            return "Medium Risk"
+        elif stay > 20:
+            return "Low Risk"
+        else:
+            return "Very Low Risk"
+
+
     else:
-        return "Low"
+        return "Low Risk"
+
 
 df["Risk_Level"] = df.apply(risk_level, axis=1)
-
 
 
 
