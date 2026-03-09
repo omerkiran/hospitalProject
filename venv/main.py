@@ -37,7 +37,7 @@ df["Length_of_Stay"] = (df["Date of Discharge"] - df["Date of Admission"]).dt.da
 
 
 # hastaneden çıktığı tarihten hastaneye giriş tarihin çıkarttık ve hastanede kalış süresini hesapladık ve yeni veri olarak ekledik
-#we subtracted the hospital admission date from the discharge date and calculated the length of stay. We added this as a new data
+# we subtracted the hospital admission date from the discharge date and calculated the length of stay. We added this as a new data
 
 
 df["Survival_Status"] = df["Outcome"].apply(
@@ -46,7 +46,7 @@ df["Survival_Status"] = df["Outcome"].apply(
 
 
 # ölüm durumunu binarye çevirdik
-#we converted death status data as binary
+# we converted death status data as binary
 
 def age_group(age):
     if age <= 18:
@@ -62,7 +62,7 @@ df["Age_Group"] = df["Age"].apply(age_group)
 
 
 # yaş kategorileri arasında analiz yapabilmek için yaşları kategorize ettik
-#we categorized age data for analyze among age data
+# we categorized age data for analyze among age data
 
 def get_season(date):
     month = date.month
@@ -80,8 +80,8 @@ df["Season"] = df["Date of Admission"].apply(get_season)
 
 
 
-#hastaların risk oranları
-#risk ratios of patients
+# hastaların risk oranları
+# risk ratios of patients
 def risk_level(row):
 
     age = row["Age"]
