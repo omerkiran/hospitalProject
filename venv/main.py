@@ -88,8 +88,8 @@ def risk_level(row):
     stay = row["Length_of_Stay"]
     disease = row["Medical Condition"]
 
-    #CANCER
-    #KANSER
+    # CANCER
+    # KANSER
     if disease == "Cancer":
         if age > 70 or stay > 200:
             return "Very High Risk"
